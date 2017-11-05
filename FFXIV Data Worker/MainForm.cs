@@ -60,9 +60,23 @@ namespace FFXIV_Data_Worker
             };
             foreach (var file in files)
             {
-                ResultTextBox.AppendText(await RunExternalProgram.LaunchVGMStreamAsync(@"CMD",file,ResultTextBox));
+                ResultTextBox.AppendText(await RunExternalProgram.LaunchVGMStreamAsync(@"CMD",file));
             }
             
+        }
+
+        private async void WavToMP3Button_Click(object sender, EventArgs e)
+        {
+            string[] files;
+            using (OpenFileDialog oFD = new OpenFileDialog() { Multiselect = true, Filter = "Wav Files | *.wav" })
+            {
+                if (oFD.ShowDialog() == DialogResult.OK) files = oFD.FileNames;
+                else return;
+            }
+            foreach (var file in files)
+            {
+                ResultTextBox.AppendText(await WavToMP3.WaveToMP3Async(file, file.Replace(".wav", ".mp3")));
+            }
         }
     }
 }

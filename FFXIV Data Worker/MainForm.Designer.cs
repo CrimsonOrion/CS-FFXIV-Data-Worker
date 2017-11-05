@@ -35,6 +35,7 @@
             this.GetWeatherButton = new System.Windows.Forms.Button();
             this.ScdToWavButton = new System.Windows.Forms.Button();
             this.ResultTextBox = new System.Windows.Forms.TextBox();
+            this.WavToMP3Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UpdateRealmButton
@@ -103,14 +104,26 @@
             this.ResultTextBox.Multiline = true;
             this.ResultTextBox.Name = "ResultTextBox";
             this.ResultTextBox.ReadOnly = true;
+            this.ResultTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ResultTextBox.Size = new System.Drawing.Size(305, 484);
             this.ResultTextBox.TabIndex = 6;
+            // 
+            // WavToMP3Button
+            // 
+            this.WavToMP3Button.Location = new System.Drawing.Point(255, 59);
+            this.WavToMP3Button.Name = "WavToMP3Button";
+            this.WavToMP3Button.Size = new System.Drawing.Size(75, 41);
+            this.WavToMP3Button.TabIndex = 7;
+            this.WavToMP3Button.Text = "Wav => MP3";
+            this.WavToMP3Button.UseVisualStyleBackColor = true;
+            this.WavToMP3Button.Click += new System.EventHandler(this.WavToMP3Button_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(410, 602);
+            this.Controls.Add(this.WavToMP3Button);
             this.Controls.Add(this.ResultTextBox);
             this.Controls.Add(this.ScdToWavButton);
             this.Controls.Add(this.GetWeatherButton);
@@ -134,6 +147,7 @@
         private System.Windows.Forms.Button GetWeatherButton;
         private System.Windows.Forms.Button ScdToWavButton;
         private System.Windows.Forms.TextBox ResultTextBox;
+        private System.Windows.Forms.Button WavToMP3Button;
     }
 }
 

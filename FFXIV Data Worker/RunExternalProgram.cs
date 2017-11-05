@@ -7,10 +7,10 @@ namespace FFXIV_Data_Worker
 {
     public static class RunExternalProgram
     {
-        public static async Task<string> LaunchVGMStreamAsync(string vgmStreamPath, string scdPath, TextBox text)
+        public static async Task<string> LaunchVGMStreamAsync(string vgmStreamPath, string scdPath)
         {
             await Task.Run(() => LaunchVGMStream(vgmStreamPath, scdPath));
-            return $"{scdPath} converted.\r\n\r\n";
+            return $"{scdPath.Replace(".scd", ".wav")} created.\r\n\r\n";
         }
 
 

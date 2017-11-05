@@ -125,14 +125,11 @@ namespace FFXIV_Data_Worker
             }
         }
 
-        public static void MakeFiles()
+        public static string MakeFiles()
         {
             int numberOfFilesSucceeded = 0;
-            int numberOfFilesFailed = 0;            
-            String VGAStreamPath = "D:\\Programs\\VGAStream\\test -o ";
-            String batchLine = "";
-            String scdPath = "";
-            String wavPath = "";
+            int numberOfFilesFailed = 0;
+            string result = "";
 
             SetPath();
 
@@ -142,26 +139,15 @@ namespace FFXIV_Data_Worker
                 {
                     Convert(file);
                     RenameFileExtension(file, "ogg");
-
-                    if (file.Contains(".scd.ogg"))
-                    {
-                        scdPath = file.Replace(".scd.ogg", ".scd");
-                        wavPath = file.Replace(".scd.ogg", ".wav");
-                    }
-                    else
-                    {
-                        scdPath = file.Replace(".ogg", ".scd");
-                        wavPath = file.Replace(".ogg", ".wav");
-                    }
                     numberOfFilesSucceeded++;
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"There was a problem converting {file}.\r\n\r\n{e.Message}");
+                    result += $"There was a problem converting {file}.\r\n{e.Message}\r\n\r\n";
                     numberOfFilesFailed++;
                 }                
             }
-            MessageBox.Show($"Number of files converted:{numberOfFilesSucceeded}\r\n\r\nNumber of files failed:{numberOfFilesFailed}");
+            return result += $"Finished converting OGG files.\r\nNumber of files converted:{numberOfFilesSucceeded}\r\nNumber of files failed:{numberOfFilesFailed}\r\n\r\n";
         }
     }
 }

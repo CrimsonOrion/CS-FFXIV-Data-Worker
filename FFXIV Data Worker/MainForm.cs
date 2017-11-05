@@ -41,8 +41,7 @@ namespace FFXIV_Data_Worker
 
         private void OggToScdButton_Click(object sender, EventArgs e)
         {
-            OggToScd.MakeFiles();
-            MessageBox.Show("Done");
+            ResultTextBox.Text = OggToScd.MakeFiles();            
         }
 
         private void GetWeatherButton_Click(object sender, EventArgs e)
@@ -68,6 +67,8 @@ namespace FFXIV_Data_Worker
         private async void WavToMP3Button_Click(object sender, EventArgs e)
         {
             string[] files;
+            string album;
+            string year;
             using (OpenFileDialog oFD = new OpenFileDialog() { Multiselect = true, Filter = "Wav Files | *.wav" })
             {
                 if (oFD.ShowDialog() == DialogResult.OK) files = oFD.FileNames;
@@ -75,8 +76,17 @@ namespace FFXIV_Data_Worker
             }
             foreach (var file in files)
             {
-                ResultTextBox.AppendText(await WavToMP3.WaveToMP3Async(file, file.Replace(".wav", ".mp3")));
+                if (file.Contains("_EX2_")) { album = "FFXIV:SB DAT Rip"; year = "2017"; }
+                else if (file.Contains("_EX1_")) { album = "FFXIV:HW DAT Rip"; year = "2015"; }
+                else { album = "FFXIV:ARR DAT Rip"; year = "2013"; }
+
+                ResultTextBox.AppendText(await WavToMP3.WaveToMP3Async(file, file.Replace(".wav", ".mp3"),albumArtist: "Square Enix", album: album, year: year));
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            WavToMP3.SplitWav(@"D:\Users\eimi_\Desktop\Extract\music\ex1\BGM_EX1_Alex03.wav");
         }
     }
 }

@@ -82,11 +82,12 @@ namespace FFXIV_Data_Worker
 
                 ResultTextBox.AppendText(await WavToMP3.WaveToMP3Async(file, file.Replace(".wav", ".mp3"),albumArtist: "Square Enix", album: album, year: year));
             }
+            ResultTextBox.AppendText($"Completed MP3 Conversion. {files} converted.\r\n");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            WavToMP3.SplitWav(@"D:\Users\eimi_\Desktop\Extract\music\ex1\BGM_EX1_Alex03.wav");
+           
         }
     }
 }

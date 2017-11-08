@@ -60,6 +60,7 @@
     <Compile Include="AllExd.cs" />
     <Compile Include="BgmRip.cs" />
     <Compile Include="ExdHelper.cs" />
+    <Compile Include="JoinWav.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

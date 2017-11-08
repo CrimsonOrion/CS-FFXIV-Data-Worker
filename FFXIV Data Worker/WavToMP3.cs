@@ -59,31 +59,34 @@ namespace FFXIV_Data_Worker
                 UserDefinedTags = userDefinedTags
             };
 
-            using (var reader = new AudioFileReader(waveFileName))
-            using (var writer = new LameMP3FileWriter(mp3FileName, reader.WaveFormat, bitRate, tag))
-                await reader.CopyToAsync(writer);//reader.CopyTo(writer);
-
-            return $"{mp3FileName} created.\r\n\r\n";
-        }
-
-        public static void GetWaveChannel()
-        {
-            var bytes = new byte[50];
-            WaveFormat waveFormat;
-
-            using (var stream = new FileStream(@"D:\Users\eimi_\Desktop\Extract\music\ex1\BGM_EX1_Alex01.wav", FileMode.Open))
+            var reader = new AudioFileReader(waveFileName);
+            if (reader.WaveFormat.Channels == 2)
             {
-                stream.Read(bytes, 0, 50);
+                using (reader)
+                {
+                    using (var writer = new LameMP3FileWriter(mp3FileName, reader.WaveFormat, bitRate, tag))
+                        await reader.CopyToAsync(writer);//reader.CopyTo(writer);
+                }
             }
-
-            using (var reader = new AudioFileReader(@"D:\Users\eimi_\Desktop\Extract\music\ex1\BGM_EX1_Alex01.wav"))
+            else if (reader.WaveFormat.Channels == 6)
             {
-                waveFormat = reader.WaveFormat;
-            }
+                reader.Dispose();
+                mp3FileName = string.Empty;
+                SplitWav(waveFileName);
+                var fileNames = MixSixChannel(waveFileName);
+                foreach (var fileName in fileNames)
+                {
+                    using (reader = new AudioFileReader(fileName))
+                    {
+                        using (var writer = new LameMP3FileWriter(fileName.Replace(".wav", ".mp3"), reader.WaveFormat, bitRate, tag))
+                            await reader.CopyToAsync(writer);
+                        mp3FileName += fileName.Replace(".wav", ".mp3") + " ";
+                    }
+                }
 
-            var speakerMask = BitConverter.ToUInt32(new[] { bytes[40], bytes[41], bytes[42], bytes[43] }, 0);
+            }
             
-
+            return $"{mp3FileName} created.\r\n\r\n";
         }
 
         public static void SplitWav(string fileName)
@@ -104,94 +107,51 @@ namespace FFXIV_Data_Worker
                     string.Format(
                         "Data bytes processed: {0} ({1} MB)",
                         bytesTotal, Math.Round((double)bytesTotal / (1024 * 1024), 1)));
-                Console.WriteLine(string.Format("Elapsed time: {0}", sw.Elapsed));
-                Environment.Exit(0);
+                Console.WriteLine(string.Format("Elapsed time: {0}", sw.Elapsed));                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                Environment.Exit(-1);
+                
             }
         }
 
-        // This code will only return the bytes of a particular channel. It's up to you to convert the bytes to actual samples.
-        public static byte[] GetChannelBytes(byte[] audioBytes, uint speakerMask, Channels channelToRead, int bitDepth, uint sampleStartIndex, uint sampleEndIndex)
+        public static string[] MixSixChannel(string filename)
         {
-            var channels = FindExistingChannels(speakerMask);
-            var ch = GetChannelNumber(channelToRead, channels);
-            var byteDepth = bitDepth / 8;
-            var chOffset = ch * byteDepth;
-            var frameBytes = byteDepth * channels.Length;
-            var startByteIncIndex = sampleStartIndex * byteDepth * channels.Length;
-            var endByteIncIndex = sampleEndIndex * byteDepth * channels.Length;
-            var outputBytesCount = endByteIncIndex - startByteIncIndex;
-            var outputBytes = new byte[outputBytesCount / channels.Length];
-            var i = 0;
+            filename = filename.Replace(".wav", "");
+            string[] filenames = new string[2];
 
-            startByteIncIndex += chOffset;
-
-            for (var j = startByteIncIndex; j < endByteIncIndex; j += frameBytes)
+            using (WaveFileReader input1 = new WaveFileReader($"{filename}.CH01.wav"))
             {
-                for (var k = j; k < j + byteDepth; k++)
+                using (WaveFileReader input2 = new WaveFileReader($"{filename}.CH02.wav"))
                 {
-                    outputBytes[i] = audioBytes[(k - startByteIncIndex) + chOffset];
-                    i++;
+                    var waveProvider = new MultiplexingWaveProvider(new IWaveProvider[] { input1, input2 }, 2);
+                    waveProvider.ConnectInputToOutput(0, 0);
+                    waveProvider.ConnectInputToOutput(1, 1);
+                    WaveFileWriter.CreateWaveFile($"{filename}.Dungeon.wav", waveProvider);
+                    filenames[0] = $"{filename}.Dungeon.wav";
                 }
             }
 
-            return outputBytes;
-        }
-
-        private static Channels[] FindExistingChannels(uint speakerMask)
-        {
-            var foundChannels = new List<Channels>();
-
-            foreach (var ch in Enum.GetValues(typeof(Channels)))
+            using (WaveFileReader input1 = new WaveFileReader($"{filename}.CH03.wav"))
             {
-                if ((speakerMask & (uint)ch) == (uint)ch)
+                using (WaveFileReader input2 = new WaveFileReader($"{filename}.CH04.wav"))
                 {
-                    foundChannels.Add((Channels)ch);
+                    var waveProvider = new MultiplexingWaveProvider(new IWaveProvider[] { input1, input2 }, 2);
+                    waveProvider.ConnectInputToOutput(0, 0);
+                    waveProvider.ConnectInputToOutput(1, 1);
+                    WaveFileWriter.CreateWaveFile($"{filename}.Battle.wav", waveProvider);
+                    filenames[1] = $"{filename}.Battle.wav";
                 }
             }
 
-            return foundChannels.ToArray();
-        }
+            return filenames;
 
-        private static int GetChannelNumber(Channels input, Channels[] existingChannels)
-        {
-            for (var i = 0; i < existingChannels.Length; i++)
-            {
-                if (existingChannels[i] == input)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
-        [Flags]
-        public enum Channels : uint
-        {
-            FrontLeft = 0x1,
-            FrontRight = 0x2,
-            FrontCenter = 0x4,
-            Lfe = 0x8,
-            BackLeft = 0x10,
-            BackRight = 0x20,
-            FrontLeftOfCenter = 0x40,
-            FrontRightOfCenter = 0x80,
-            BackCenter = 0x100,
-            SideLeft = 0x200,
-            SideRight = 0x400,
-            TopCenter = 0x800,
-            TopFrontLeft = 0x1000,
-            TopFrontCenter = 0x2000,
-            TopFrontRight = 0x4000,
-            TopBackLeft = 0x8000,
-            TopBackCenter = 0x10000,
-            TopBackRight = 0x20000
+            /* TO PLAY IT OUTRIGHT:
+            WasapiOut outDevice = new WasapiOut();
+            outDevice.Init(waveProvider);
+            outDevice.Play(); */
         }
     }
 }

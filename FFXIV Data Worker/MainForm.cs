@@ -78,11 +78,12 @@ namespace FFXIV_Data_Worker
             {
                 if (file.Contains("_EX2_")) { album = "FFXIV:SB DAT Rip"; year = "2017"; }
                 else if (file.Contains("_EX1_")) { album = "FFXIV:HW DAT Rip"; year = "2015"; }
+                else if (file.Contains("_ORCH_")) { album = "FFXIV:ORCH DAT Rip"; year = "2017"; }
                 else { album = "FFXIV:ARR DAT Rip"; year = "2013"; }
 
                 ResultTextBox.AppendText(await WavToMP3.WaveToMP3Async(file, file.Replace(".wav", ".mp3"),albumArtist: "Square Enix", album: album, year: year));
             }
-            ResultTextBox.AppendText($"Completed MP3 Conversion. {files} converted.\r\n");
+            ResultTextBox.AppendText($"Completed MP3 Conversion. {files.Length} converted.\r\n");
         }
 
         private void button1_Click(object sender, EventArgs e)

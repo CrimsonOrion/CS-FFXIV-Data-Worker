@@ -138,7 +138,7 @@ namespace FFXIV_Data_Worker
                 try
                 {
                     Convert(file);
-                    RenameFileExtension(file, "ogg");
+                    //RenameFileExtension(file, "ogg");
                     numberOfFilesSucceeded++;
                 }
                 catch (Exception e)

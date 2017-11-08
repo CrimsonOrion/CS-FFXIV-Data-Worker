@@ -21,8 +21,8 @@ namespace FFXIV_Data_Worker
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = vgmStreamPath;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = $" /c \"D:\\Users\\eimi_\\Documents\\Projects\\C# Projects\\CS-FFXIV Data Worker\\FFXIV Data Worker\\bin\\Debug\\vgmstream\\test\" -o {scdPath.Replace(".scd", ".wav")} {scdPath}";
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;                
+                process.StartInfo.Arguments = $" /c .\\vgmstream\\test -o \"{scdPath.Replace(".scd", ".wav")}\" \"{scdPath}\"";
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
                 

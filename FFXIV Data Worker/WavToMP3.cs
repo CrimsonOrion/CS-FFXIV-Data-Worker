@@ -60,7 +60,7 @@ namespace FFXIV_Data_Worker
             };
 
             var reader = new AudioFileReader(waveFileName);
-            if (reader.WaveFormat.Channels == 2)
+            if (reader.WaveFormat.Channels <= 2)
             {
                 using (reader)
                 {

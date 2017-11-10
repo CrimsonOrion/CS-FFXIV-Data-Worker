@@ -10,7 +10,7 @@ namespace FFXIV_Data_Worker
     {
         public static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public static void GetThisWeather(DateTime dateTime, string[] zones, int forcastIntervals)
+        public static string GetThisWeather(DateTime dateTime, string[] zones, int forcastIntervals)
         {               
             EorzeaDateTime eorzeaDateTime = new EorzeaDateTime(dateTime);
             
@@ -32,8 +32,8 @@ namespace FFXIV_Data_Worker
                         if (t.ThisWeatherRate != null) { weatherForcast += $"{eorzeaDateTimeIncrements} ({eorzeaDateTimeIncrements.GetRealTime().ToLocalTime().ToShortTimeString()}) - {Forcast(forcastIndex, t.ThisWeatherRate)}\r\n"; }
                         eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);
                     }
-                    
-                    MessageBox.Show(weatherForcast);
+
+                    return weatherForcast;
                 }
             }
             else
@@ -49,13 +49,13 @@ namespace FFXIV_Data_Worker
                         if (t.ThisWeatherRate != null) { weatherForcast += $"{eorzeaDateTimeIncrements} ({eorzeaDateTimeIncrements.GetRealTime().ToLocalTime()}) - {Forcast(forcastIndex, t.ThisWeatherRate)}\r\n"; }
                         eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);
                     }
-                    
-                    MessageBox.Show(weatherForcast);
+
+                    return weatherForcast;
                 }
 
             }
 
-            
+            return null;
 
         }
 

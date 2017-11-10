@@ -45,8 +45,8 @@ namespace FFXIV_Data_Worker
         }
 
         private void GetWeatherButton_Click(object sender, EventArgs e)
-        {
-            Weather.GetThisWeather(DateTime.Now, new string[] { "Eastern La Noscea", "Central Shroud", "Western Thanalan" }, 60);
+        {   
+            ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now, new string[] { "Central Shroud","Eastern Thanalan" }, 160);
         }
 
         private async void ScdToWavButton_Click(object sender, EventArgs e)

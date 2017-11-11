@@ -20,17 +20,9 @@ namespace FFXIV_Data_Worker
             InitializeComponent();
         }
 
-        private void UpdateRealmButton_Click(object sender, EventArgs e)
-        {
-            Realm.UpdateRealm();
-            MessageBox.Show("Done");
-        }
+        private void UpdateRealmButton_Click(object sender, EventArgs e) => ResultTextBox.AppendText(Realm.UpdateRealm());
 
-        private void RipMusicButton_Click(object sender, EventArgs e)
-        {
-            BgmRip.RipMusic();
-            MessageBox.Show("Done");
-        }
+        private void RipMusicButton_Click(object sender, EventArgs e) => ResultTextBox.AppendText(BgmRip.RipMusic());
 
         private void RipExdButton_Click(object sender, EventArgs e)
         {
@@ -39,15 +31,9 @@ namespace FFXIV_Data_Worker
             MessageBox.Show("Done");
         }
 
-        private void OggToScdButton_Click(object sender, EventArgs e)
-        {
-            ResultTextBox.Text = OggToScd.MakeFiles();            
-        }
+        private void OggToScdButton_Click(object sender, EventArgs e) => ResultTextBox.Text = OggToScd.MakeFiles();
 
-        private void GetWeatherButton_Click(object sender, EventArgs e)
-        {   
-            ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now, new string[] { "Central Shroud","Eastern Thanalan" }, 160);
-        }
+        private void GetWeatherButton_Click(object sender, EventArgs e) => ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now, new string[] { "Central Shroud" }, 160);
 
         private async void ScdToWavButton_Click(object sender, EventArgs e)
         {

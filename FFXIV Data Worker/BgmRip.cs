@@ -6,11 +6,12 @@ namespace FFXIV_Data_Worker
 {
     class BgmRip
     {
-        public static void RipMusic()
+        public static string RipMusic()
         {
             var bgm = Realm.realm.GameData.GetSheet("BGM");
             var successCount = 0;
             var failCount = 0;
+            string summary = string.Empty;
             foreach (IXivRow song in bgm)
             {
                 var filePath = song["File"].ToString();
@@ -25,13 +26,13 @@ namespace FFXIV_Data_Worker
                     }
                     else
                     {
-                        Console.WriteLine($"File {filePath} not found.");
+                        summary += $"File {filePath} not found.\r\n";
                         ++failCount;
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Export of {filePath} failed: {ex.Message}");
+                    summary += $"Export of {filePath} failed: {ex.Message}\r\n";
                     ++failCount;
                 }
 
@@ -56,18 +57,20 @@ namespace FFXIV_Data_Worker
                     }
                     else
                     {
-                        Console.WriteLine($"File {filePath} not found.");
+                        summary += $"File {filePath} not found.\r\n";
                         ++failCount;
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Export of {filePath} failed: {ex.Message}");
+                    summary += $"Export of {filePath} failed: {ex.Message}\r\n";
                     ++failCount;
                 }
             }
 
-            MessageBox.Show($"{successCount} files exported. {failCount} failed.");
+            summary += $"\r\nSummary: {successCount} files exported. {failCount} failed.";
+            return summary;
+
         }
 
         private static bool ExportFile(string filePath, string suffix)

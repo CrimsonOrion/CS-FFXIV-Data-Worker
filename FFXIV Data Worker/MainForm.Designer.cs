@@ -33,7 +33,7 @@
             this.RipExdButton = new System.Windows.Forms.Button();
             this.OggToScdButton = new System.Windows.Forms.Button();
             this.GetWeatherButton = new System.Windows.Forms.Button();
-            this.ScdToWavButton = new System.Windows.Forms.Button();
+            this.OggToWavButton = new System.Windows.Forms.Button();
             this.ResultTextBox = new System.Windows.Forms.TextBox();
             this.WavToMP3Button = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -71,7 +71,7 @@
             // 
             // OggToScdButton
             // 
-            this.OggToScdButton.Location = new System.Drawing.Point(93, 59);
+            this.OggToScdButton.Location = new System.Drawing.Point(255, 59);
             this.OggToScdButton.Name = "OggToScdButton";
             this.OggToScdButton.Size = new System.Drawing.Size(75, 41);
             this.OggToScdButton.TabIndex = 3;
@@ -89,18 +89,21 @@
             this.GetWeatherButton.UseVisualStyleBackColor = true;
             this.GetWeatherButton.Click += new System.EventHandler(this.GetWeatherButton_Click);
             // 
-            // ScdToWavButton
+            // OggToWavButton
             // 
-            this.ScdToWavButton.Location = new System.Drawing.Point(174, 59);
-            this.ScdToWavButton.Name = "ScdToWavButton";
-            this.ScdToWavButton.Size = new System.Drawing.Size(75, 41);
-            this.ScdToWavButton.TabIndex = 5;
-            this.ScdToWavButton.Text = "Scd => Wav";
-            this.ScdToWavButton.UseVisualStyleBackColor = true;
-            this.ScdToWavButton.Click += new System.EventHandler(this.ScdToWavButton_Click);
+            this.OggToWavButton.Location = new System.Drawing.Point(93, 59);
+            this.OggToWavButton.Name = "OggToWavButton";
+            this.OggToWavButton.Size = new System.Drawing.Size(75, 41);
+            this.OggToWavButton.TabIndex = 5;
+            this.OggToWavButton.Text = "Ogg => Wav";
+            this.OggToWavButton.UseVisualStyleBackColor = true;
+            this.OggToWavButton.Click += new System.EventHandler(this.OggToWavButton_Click);
             // 
             // ResultTextBox
             // 
+            this.ResultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ResultTextBox.Location = new System.Drawing.Point(93, 106);
             this.ResultTextBox.Multiline = true;
             this.ResultTextBox.Name = "ResultTextBox";
@@ -111,7 +114,7 @@
             // 
             // WavToMP3Button
             // 
-            this.WavToMP3Button.Location = new System.Drawing.Point(255, 59);
+            this.WavToMP3Button.Location = new System.Drawing.Point(174, 59);
             this.WavToMP3Button.Name = "WavToMP3Button";
             this.WavToMP3Button.Size = new System.Drawing.Size(75, 41);
             this.WavToMP3Button.TabIndex = 7;
@@ -137,7 +140,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.WavToMP3Button);
             this.Controls.Add(this.ResultTextBox);
-            this.Controls.Add(this.ScdToWavButton);
+            this.Controls.Add(this.OggToWavButton);
             this.Controls.Add(this.GetWeatherButton);
             this.Controls.Add(this.OggToScdButton);
             this.Controls.Add(this.RipExdButton);
@@ -157,7 +160,7 @@
         private System.Windows.Forms.Button RipExdButton;
         private System.Windows.Forms.Button OggToScdButton;
         private System.Windows.Forms.Button GetWeatherButton;
-        private System.Windows.Forms.Button ScdToWavButton;
+        private System.Windows.Forms.Button OggToWavButton;
         private System.Windows.Forms.TextBox ResultTextBox;
         private System.Windows.Forms.Button WavToMP3Button;
         private System.Windows.Forms.Button button1;

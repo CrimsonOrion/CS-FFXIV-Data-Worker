@@ -33,12 +33,12 @@ namespace FFXIV_Data_Worker
 
         private void OggToScdButton_Click(object sender, EventArgs e) => ResultTextBox.Text = OggToScd.MakeFiles();
 
-        private void GetWeatherButton_Click(object sender, EventArgs e) => ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now, new string[] { "Central Shroud" }, 160);
+        private void GetWeatherButton_Click(object sender, EventArgs e) => ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now.AddDays(0), new string[] { "Central Shroud" }, 160);
 
-        private async void ScdToWavButton_Click(object sender, EventArgs e)
+        private async void OggToWavButton_Click(object sender, EventArgs e)
         {
             string[] files;
-            using (OpenFileDialog oFD = new OpenFileDialog() { Multiselect = true, Filter = "SCD Files | *.scd" })
+            using (OpenFileDialog oFD = new OpenFileDialog() { Multiselect = true, Filter = "OGG Files | *.ogg" })
             {
                 if (oFD.ShowDialog() == DialogResult.OK) files = oFD.FileNames;
                 else return;

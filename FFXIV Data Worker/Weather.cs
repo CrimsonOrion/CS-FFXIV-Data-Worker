@@ -12,10 +12,10 @@ namespace FFXIV_Data_Worker
 
         public static string GetThisWeather(DateTime dateTime, string[] zones, int forcastIntervals)
         {               
-            EorzeaDateTime eorzeaDateTime = new EorzeaDateTime(dateTime);
-            
+            EorzeaDateTime eorzeaDateTime = new EorzeaDateTime(dateTime);            
             Territory t;
             string weatherForcast;
+            bool sRankCondition = false;
             
             if (zones == null)
             {   
@@ -30,7 +30,7 @@ namespace FFXIV_Data_Worker
                     {
                         int forcastIndex = CalculateTarget(eorzeaDateTimeIncrements);
                         if (t.ThisWeatherRate != null) { weatherForcast += $"{eorzeaDateTimeIncrements} ({eorzeaDateTimeIncrements.GetRealTime().ToLocalTime().ToShortTimeString()}) - {Forcast(forcastIndex, t.ThisWeatherRate)}\r\n"; }
-                        eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);
+                        eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);                        
                     }
 
                     return weatherForcast;
@@ -44,9 +44,16 @@ namespace FFXIV_Data_Worker
                     t = Territory.territory.FirstOrDefault(pN => pN.Value.PlaceName == zone).Value;
                     weatherForcast = $"{t.PlaceName}:\r\n";
                     for (int i = 0; i < forcastIntervals; i++)
-                    {
-                        int forcastIndex = CalculateTarget(eorzeaDateTimeIncrements);                        
-                        if (t.ThisWeatherRate != null) { weatherForcast += $"{eorzeaDateTimeIncrements} ({eorzeaDateTimeIncrements.GetRealTime().ToLocalTime()}) - {Forcast(forcastIndex, t.ThisWeatherRate)}\r\n"; }
+                    {   
+                        int forcastIndex = CalculateTarget(eorzeaDateTimeIncrements);
+                        //if (t.ThisWeatherRate != null) { weatherForcast += $"{eorzeaDateTimeIncrements} ({eorzeaDateTimeIncrements.GetRealTime().ToLocalTime().ToShortTimeString()}) - {Forcast(forcastIndex, t.ThisWeatherRate)}\r\n"; }
+                        
+                        if (t.ThisWeatherRate != null) {
+                            string weather = Forcast(forcastIndex, t.ThisWeatherRate);
+                            DateTime localTime = eorzeaDateTimeIncrements.GetRealTime().ToLocalTime();
+                            weatherForcast += $"{eorzeaDateTimeIncrements} ({localTime}) - {weather}\r\n";
+                            sRankCondition = CheckCondition(zone, weather);
+                        }
                         eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);
                     }
 
@@ -113,21 +120,21 @@ namespace FFXIV_Data_Worker
 
             try
             {
-                if (fI <= wR.WeatherRate1)
+                if (fI < wR.WeatherRate1)
                     forcast = wR.Weather1;
-                else if (fI <= wR.WeatherRate2)
+                else if (fI < wR.WeatherRate2)
                     forcast = wR.Weather2;
-                else if (fI <= wR.WeatherRate3)
+                else if (fI < wR.WeatherRate3)
                     forcast = wR.Weather3;
-                else if (fI <= wR.WeatherRate4)
+                else if (fI < wR.WeatherRate4)
                     forcast = wR.Weather4;
-                else if (fI <= wR.WeatherRate5)
+                else if (fI < wR.WeatherRate5)
                     forcast = wR.Weather5;
-                else if (fI <= wR.WeatherRate6)
+                else if (fI < wR.WeatherRate6)
                     forcast = wR.Weather6;
-                else if (fI <= wR.WeatherRate7)
+                else if (fI < wR.WeatherRate7)
                     forcast = wR.Weather7;
-                else if (fI <= wR.WeatherRate8)
+                else if (fI < wR.WeatherRate8)
                     forcast = wR.Weather8;
                 else
                     forcast = "None found";
@@ -137,6 +144,15 @@ namespace FFXIV_Data_Worker
                 forcast = $"Null due to {e.Message}";
             }
             return forcast;
+        }
+
+        private static bool CheckCondition(string zone, string weather)
+        {
+            bool spawnCondition = false;
+            if (zone == "Central Shroud" && (weather.Contains("Rain") || weather.Contains("Showers")))
+                spawnCondition = true;            
+
+            return spawnCondition;
         }
     }
 

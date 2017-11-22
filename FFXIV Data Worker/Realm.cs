@@ -1,11 +1,13 @@
 ﻿using SaintCoinach;
-
+using System;
+using System.Linq;
+using Ex = SaintCoinach.Ex;
+ 
 namespace FFXIV_Data_Worker
 {
     class Realm
-    {
-        const string GameDirectory = @"E:\Games\SquareEnix\FINAL FANTASY XIV - A Realm Reborn";
-        public static ARealmReversed realm = new ARealmReversed(GameDirectory, SaintCoinach.Ex.Language.English);
+    {   
+        public static ARealmReversed realm = new ARealmReversed(Properties.Settings.Default.GameDirectory, @"SaintCoinach.History.zip", Ex.Language.English);
 
         public static string UpdateRealm()
         {
@@ -23,5 +25,18 @@ namespace FFXIV_Data_Worker
             else
                 return "Running current version.";
         }
+    }
+
+    class ConsoleProgressReporter : IProgress<Ex.Relational.Update.UpdateProgress>
+    {
+
+        #region IProgress<UpdateProgress> Members
+
+        public void Report(Ex.Relational.Update.UpdateProgress value)
+        {
+            Console.WriteLine(value);
+        }
+
+        #endregion
     }
 }

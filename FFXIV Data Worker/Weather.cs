@@ -11,8 +11,8 @@ namespace FFXIV_Data_Worker
         public static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static string GetThisWeather(DateTime dateTime, string[] zones, int forcastIntervals)
-        {               
-            EorzeaDateTime eorzeaDateTime = new EorzeaDateTime(dateTime);            
+        {
+            EorzeaDateTime eorzeaDateTime = new EorzeaDateTime(dateTime);
             Territory t;
             string weatherForcast;
             bool sRankCondition = false;
@@ -30,7 +30,7 @@ namespace FFXIV_Data_Worker
                     {
                         int forcastIndex = CalculateTarget(eorzeaDateTimeIncrements);
                         if (t.ThisWeatherRate != null) { weatherForcast += $"{eorzeaDateTimeIncrements} ({eorzeaDateTimeIncrements.GetRealTime().ToLocalTime().ToShortTimeString()}) - {Forcast(forcastIndex, t.ThisWeatherRate)}\r\n"; }
-                        eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);                        
+                        eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);
                     }
 
                     return weatherForcast;
@@ -44,9 +44,8 @@ namespace FFXIV_Data_Worker
                     t = Territory.territory.FirstOrDefault(pN => pN.Value.PlaceName == zone).Value;
                     weatherForcast = $"{t.PlaceName}:\r\n";
                     for (int i = 0; i < forcastIntervals; i++)
-                    {   
+                    {
                         int forcastIndex = CalculateTarget(eorzeaDateTimeIncrements);
-                        //if (t.ThisWeatherRate != null) { weatherForcast += $"{eorzeaDateTimeIncrements} ({eorzeaDateTimeIncrements.GetRealTime().ToLocalTime().ToShortTimeString()}) - {Forcast(forcastIndex, t.ThisWeatherRate)}\r\n"; }
                         
                         if (t.ThisWeatherRate != null) {
                             string weather = Forcast(forcastIndex, t.ThisWeatherRate);
@@ -79,7 +78,7 @@ namespace FFXIV_Data_Worker
 
         public static void GetThisWeather(string[] zones)
         {
-            GetThisWeather(DateTime.Now, zones, 1);            
+            GetThisWeather(DateTime.Now, zones, 1);
         }
 
         public static EorzeaDateTime Increment(EorzeaDateTime eDT)
@@ -150,7 +149,7 @@ namespace FFXIV_Data_Worker
         {
             bool spawnCondition = false;
             if (zone == "Central Shroud" && (weather.Contains("Rain") || weather.Contains("Showers")))
-                spawnCondition = true;            
+                spawnCondition = true;
 
             return spawnCondition;
         }

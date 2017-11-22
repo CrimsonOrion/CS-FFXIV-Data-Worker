@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.UpdateRealmButton = new System.Windows.Forms.Button();
             this.RipMusicButton = new System.Windows.Forms.Button();
             this.RipExdButton = new System.Windows.Forms.Button();
@@ -37,11 +38,16 @@
             this.ResultTextBox = new System.Windows.Forms.TextBox();
             this.WavToMP3Button = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.TerritoryComboBox = new System.Windows.Forms.ComboBox();
+            this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SetGameLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // UpdateRealmButton
             // 
-            this.UpdateRealmButton.Location = new System.Drawing.Point(12, 12);
+            this.UpdateRealmButton.Location = new System.Drawing.Point(484, 27);
             this.UpdateRealmButton.Name = "UpdateRealmButton";
             this.UpdateRealmButton.Size = new System.Drawing.Size(75, 41);
             this.UpdateRealmButton.TabIndex = 0;
@@ -51,7 +57,7 @@
             // 
             // RipMusicButton
             // 
-            this.RipMusicButton.Location = new System.Drawing.Point(12, 59);
+            this.RipMusicButton.Location = new System.Drawing.Point(12, 27);
             this.RipMusicButton.Name = "RipMusicButton";
             this.RipMusicButton.Size = new System.Drawing.Size(75, 41);
             this.RipMusicButton.TabIndex = 1;
@@ -61,7 +67,7 @@
             // 
             // RipExdButton
             // 
-            this.RipExdButton.Location = new System.Drawing.Point(12, 106);
+            this.RipExdButton.Location = new System.Drawing.Point(12, 74);
             this.RipExdButton.Name = "RipExdButton";
             this.RipExdButton.Size = new System.Drawing.Size(75, 41);
             this.RipExdButton.TabIndex = 2;
@@ -71,7 +77,7 @@
             // 
             // OggToScdButton
             // 
-            this.OggToScdButton.Location = new System.Drawing.Point(255, 59);
+            this.OggToScdButton.Location = new System.Drawing.Point(93, 27);
             this.OggToScdButton.Name = "OggToScdButton";
             this.OggToScdButton.Size = new System.Drawing.Size(75, 41);
             this.OggToScdButton.TabIndex = 3;
@@ -81,9 +87,9 @@
             // 
             // GetWeatherButton
             // 
-            this.GetWeatherButton.Location = new System.Drawing.Point(12, 153);
+            this.GetWeatherButton.Location = new System.Drawing.Point(12, 121);
             this.GetWeatherButton.Name = "GetWeatherButton";
-            this.GetWeatherButton.Size = new System.Drawing.Size(75, 41);
+            this.GetWeatherButton.Size = new System.Drawing.Size(156, 41);
             this.GetWeatherButton.TabIndex = 4;
             this.GetWeatherButton.Text = "Weather Forcast";
             this.GetWeatherButton.UseVisualStyleBackColor = true;
@@ -91,7 +97,7 @@
             // 
             // OggToWavButton
             // 
-            this.OggToWavButton.Location = new System.Drawing.Point(93, 59);
+            this.OggToWavButton.Location = new System.Drawing.Point(174, 27);
             this.OggToWavButton.Name = "OggToWavButton";
             this.OggToWavButton.Size = new System.Drawing.Size(75, 41);
             this.OggToWavButton.TabIndex = 5;
@@ -104,17 +110,17 @@
             this.ResultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ResultTextBox.Location = new System.Drawing.Point(93, 106);
+            this.ResultTextBox.Location = new System.Drawing.Point(174, 74);
             this.ResultTextBox.Multiline = true;
             this.ResultTextBox.Name = "ResultTextBox";
             this.ResultTextBox.ReadOnly = true;
             this.ResultTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ResultTextBox.Size = new System.Drawing.Size(305, 484);
+            this.ResultTextBox.Size = new System.Drawing.Size(385, 502);
             this.ResultTextBox.TabIndex = 6;
             // 
             // WavToMP3Button
             // 
-            this.WavToMP3Button.Location = new System.Drawing.Point(174, 59);
+            this.WavToMP3Button.Location = new System.Drawing.Point(255, 27);
             this.WavToMP3Button.Name = "WavToMP3Button";
             this.WavToMP3Button.Size = new System.Drawing.Size(75, 41);
             this.WavToMP3Button.TabIndex = 7;
@@ -124,7 +130,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 252);
+            this.button1.Location = new System.Drawing.Point(12, 220);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
@@ -132,11 +138,44 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // TerritoryComboBox
+            // 
+            this.TerritoryComboBox.FormattingEnabled = true;
+            this.TerritoryComboBox.Location = new System.Drawing.Point(13, 169);
+            this.TerritoryComboBox.Name = "TerritoryComboBox";
+            this.TerritoryComboBox.Size = new System.Drawing.Size(155, 21);
+            this.TerritoryComboBox.TabIndex = 9;
+            // 
+            // MainMenuStrip
+            // 
+            this.MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SettingsToolStripMenuItem});
+            this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MainMenuStrip.Name = "MainMenuStrip";
+            this.MainMenuStrip.Size = new System.Drawing.Size(571, 24);
+            this.MainMenuStrip.TabIndex = 10;
+            this.MainMenuStrip.Text = "menuStrip1";
+            // 
+            // SettingsToolStripMenuItem
+            // 
+            this.SettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SetGameLocationToolStripMenuItem});
+            this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.SettingsToolStripMenuItem.Text = "Settings";
+            // 
+            // SetGameLocationToolStripMenuItem
+            // 
+            this.SetGameLocationToolStripMenuItem.Name = "SetGameLocationToolStripMenuItem";
+            this.SetGameLocationToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.SetGameLocationToolStripMenuItem.Text = "Set Game Location";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(410, 602);
+            this.ClientSize = new System.Drawing.Size(571, 620);
+            this.Controls.Add(this.TerritoryComboBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.WavToMP3Button);
             this.Controls.Add(this.ResultTextBox);
@@ -146,8 +185,14 @@
             this.Controls.Add(this.RipExdButton);
             this.Controls.Add(this.RipMusicButton);
             this.Controls.Add(this.UpdateRealmButton);
+            this.Controls.Add(this.MainMenuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.MainMenuStrip;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "FFXIV Data Worker";
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.MainMenuStrip.ResumeLayout(false);
+            this.MainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,6 +209,10 @@
         private System.Windows.Forms.TextBox ResultTextBox;
         private System.Windows.Forms.Button WavToMP3Button;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox TerritoryComboBox;
+        private System.Windows.Forms.MenuStrip MainMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SetGameLocationToolStripMenuItem;
     }
 }
 

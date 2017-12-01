@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="AllExd.cs" />
     <Compile Include="BgmRip.cs" />
+    <Compile Include="ControlWriter.cs" />
     <Compile Include="ExdHelper.cs" />
     <Compile Include="JoinWav.cs" />
     <Compile Include="MainForm.cs">

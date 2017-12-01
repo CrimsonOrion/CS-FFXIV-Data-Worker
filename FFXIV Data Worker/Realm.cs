@@ -1,8 +1,10 @@
 ﻿using SaintCoinach;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Ex = SaintCoinach.Ex;
- 
+
 namespace FFXIV_Data_Worker
 {
     class Realm
@@ -29,12 +31,11 @@ namespace FFXIV_Data_Worker
 
     class ConsoleProgressReporter : IProgress<Ex.Relational.Update.UpdateProgress>
     {
-
         #region IProgress<UpdateProgress> Members
 
         public void Report(Ex.Relational.Update.UpdateProgress value)
-        {
-            Console.WriteLine(value);
+        {            
+            Console.WriteLine(value);            
         }
 
         #endregion

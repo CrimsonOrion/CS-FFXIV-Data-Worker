@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FFXIV_Data_Worker
@@ -9,15 +10,38 @@ namespace FFXIV_Data_Worker
     public partial class MainForm : Form
     {
         public ARealmReversed realm;
+        public Form ThisForm;
 
         public MainForm()
         {
             WeatherRate.GetWeatherRate();
             Territory.GetTerritory();
+            ThisForm = this;
             InitializeComponent();
         }
 
-        private void UpdateRealmButton_Click(object sender, EventArgs e) => ResultTextBox.AppendText(Realm.UpdateRealm());
+        private async void UpdateRealmButton_Click(object sender, EventArgs e)
+        {
+            if (!realm.IsCurrentVersion)
+            {
+                var stopwatch = new System.Diagnostics.Stopwatch();                
+                ResultTextBox.Text = $"Currently Updating...\r\n";
+                //Console.SetOut(new ControlWriter(ResultTextBox));
+                stopwatch.Start();
+                //var update = realm.Update(true, new ConsoleProgressReporter());
+                var update = await UpdateData();                
+                stopwatch.Stop();
+                ResultTextBox.AppendText($"\r\nList of Change:\r\n\r\n");
+                foreach (var change in update.Changes)
+                {
+                    ResultTextBox.AppendText($"{change}\r\n");
+                }
+                ResultTextBox.AppendText($"Total Update time:{stopwatch.Elapsed}\r\nCurrent Version: {realm.DefinitionVersion}.\r\n");
+            }
+            else
+                ResultTextBox.AppendText($"No update available!\r\n\r\n");
+                        
+        }
 
         private void RipMusicButton_Click(object sender, EventArgs e) => ResultTextBox.AppendText(BgmRip.RipMusic());
 
@@ -30,7 +54,7 @@ namespace FFXIV_Data_Worker
 
         private void OggToScdButton_Click(object sender, EventArgs e) => ResultTextBox.Text = OggToScd.MakeFiles();
 
-        private void GetWeatherButton_Click(object sender, EventArgs e) => ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now.AddDays(0), new string[] { "Central Shroud" }, 160);
+        private void GetWeatherButton_Click(object sender, EventArgs e) => ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now.AddDays(-1), new string[] { "Eastern La Noscea" }, 200);
         
         private async void OggToWavButton_Click(object sender, EventArgs e)
         {
@@ -89,6 +113,13 @@ namespace FFXIV_Data_Worker
             return result;
         }
 
+        private async Task<UpdateReport> UpdateData()
+        {   
+            Task<UpdateReport> update = Task.Run(() => realm.Update(true, new ConsoleProgressReporter()));
+            await update;
+            return update.Result;            
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             var gameDirectory = Properties.Settings.Default.GameDirectory;
@@ -106,13 +137,9 @@ namespace FFXIV_Data_Worker
             realm.Packs.GetPack(new SaintCoinach.IO.PackIdentifier("exd", SaintCoinach.IO.PackIdentifier.DefaultExpansion, 0)).KeepInMemory = true;
 
             ResultTextBox.AppendText($"Game version: {realm.GameVersion}\r\nDefinition Version: {realm.DefinitionVersion}\r\n\r\n");
-            if (!realm.IsCurrentVersion && MessageBox.Show($"Game version: {realm.GameVersion}\r\nDefinition Version: {realm.DefinitionVersion}\r\n\r\nWould you like to update?","Update?",MessageBoxButtons.YesNo,MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            if (!realm.IsCurrentVersion)
             {
-                var stopwatch = new System.Diagnostics.Stopwatch();
-                stopwatch.Start();
-                var updateReport = realm.Update(true, new ConsoleProgressReporter());
-                stopwatch.Stop();
-                ResultTextBox.AppendText($"New this update:\r\n{updateReport.Changes.ToString()}\r\nTotal Update time:{stopwatch.Elapsed}\r\n");
+                ResultTextBox.AppendText("Update available.");
             }
         }
     }

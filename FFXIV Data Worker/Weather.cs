@@ -15,8 +15,11 @@ namespace FFXIV_Data_Worker
             EorzeaDateTime eorzeaDateTime = new EorzeaDateTime(dateTime);
             Territory t;
             string weatherForcast;
-            bool sRankCondition = false;
-            
+            bool sRankCentralShroudCondition = false; // double rain (2 Eorzean hours into 2nd rain/shower)
+            DateTime sRankEasternLaNosceaCondition = new DateTime(); // No rain/showers for 200 RL minutes
+
+
+
             if (zones == null)
             {   
                 var enumerator = Territory.territory.GetEnumerator();
@@ -51,7 +54,34 @@ namespace FFXIV_Data_Worker
                             string weather = Forcast(forcastIndex, t.ThisWeatherRate);
                             DateTime localTime = eorzeaDateTimeIncrements.GetRealTime().ToLocalTime();
                             weatherForcast += $"{eorzeaDateTimeIncrements} ({localTime}) - {weather}\r\n";
-                            sRankCondition = CheckCondition(zone, weather);
+                            if (zone == "Central Shroud" && (weather == "Rain" || weather == "Showers"))
+                            {
+                                if (sRankCentralShroudCondition)
+                                {                                    
+                                    EorzeaDateTime spawnTime = eorzeaDateTimeIncrements;
+                                    spawnTime.Bell = Convert.ToInt32(spawnTime.Bell) + 2;
+                                    
+                                    weatherForcast += $"\r\nCould spawn @ {spawnTime} {spawnTime.GetRealTime().ToLocalTime()}\r\n\r\n";
+                                }
+                                sRankCentralShroudCondition = true;
+                            }
+                            else if (zone == "Eastern La Noscea")
+                            {
+                                if (weather == "Rain" || weather == "Showers")
+                                {
+                                    sRankEasternLaNosceaCondition = localTime.AddMinutes(23).AddSeconds(20);
+                                }
+                                else if (localTime >= sRankEasternLaNosceaCondition.AddMinutes(200) && sRankEasternLaNosceaCondition.Year != 1)
+                                {
+                                    EorzeaDateTime spawnTime = new EorzeaDateTime(sRankEasternLaNosceaCondition.AddMinutes(200));
+                                    weatherForcast += $"\r\nCould spawn @ {spawnTime} {spawnTime.GetRealTime().ToLocalTime()}\r\n\r\n";
+                                }
+                            }
+                            else
+                            {
+                                sRankCentralShroudCondition = false;                                
+                            }
+
                         }
                         eorzeaDateTimeIncrements = Increment(eorzeaDateTimeIncrements);
                     }

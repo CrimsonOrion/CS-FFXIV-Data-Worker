@@ -54,11 +54,11 @@ namespace FFXIV_Data_Worker
 
         private void OggToScdButton_Click(object sender, EventArgs e) => ResultTextBox.Text = OggToScd.MakeFiles();
 
-        private void GetWeatherButton_Click(object sender, EventArgs e) => ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now.AddDays(-1), new string[] { "Eastern La Noscea" }, 200);
+        private void GetWeatherButton_Click(object sender, EventArgs e) => ResultTextBox.Text = Weather.GetThisWeather(DateTime.Now.AddDays(Convert.ToDouble(WeatherForcastDaysTextbox.Text)), new string[] { TerritoryComboBox.Text }, Convert.ToInt32(WeatherForcastsTextbox.Text));
         
         private async void OggToWavButton_Click(object sender, EventArgs e)
         {
-            List<string> files = new List<string>();
+            List<string> files = new List<string>();            
             using (OpenFileDialog oFD = new OpenFileDialog() { Multiselect = true, Filter = "OGG Files | *.ogg" })
             {
                 if (oFD.ShowDialog() == DialogResult.OK) files.AddRange(oFD.FileNames);
@@ -140,6 +140,11 @@ namespace FFXIV_Data_Worker
             if (!realm.IsCurrentVersion)
             {
                 ResultTextBox.AppendText("Update available.");
+            }
+
+            foreach (var item in Territory.territory)
+            {
+                TerritoryComboBox.Items.Add(item.Value.PlaceName);
             }
         }
     }

@@ -94,7 +94,8 @@ namespace FFXIV_Data_Worker
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+            var x = realm.Packs.DataDirectory.Parent;
+            var y = realm.GameData.AvailableSheets;
         }
 
         private static bool SetGameLocation()

@@ -1,8 +1,5 @@
 ﻿using SaintCoinach;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Ex = SaintCoinach.Ex;
 
 namespace FFXIV_Data_Worker

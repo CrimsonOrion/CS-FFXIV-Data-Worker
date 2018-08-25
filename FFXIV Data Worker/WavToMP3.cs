@@ -68,7 +68,7 @@ namespace FFXIV_Data_Worker
                         await reader.CopyToAsync(writer);//reader.CopyTo(writer);
                 }
             }
-            else if (reader.WaveFormat.Channels == 6)
+            else if (reader.WaveFormat.Channels > 2)
             {
                 reader.Dispose();
                 mp3FileName = string.Empty;

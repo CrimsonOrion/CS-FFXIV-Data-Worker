@@ -137,7 +137,12 @@ namespace FFXIV_Data_Worker
                 { 87, new WeatherRate("Eternal Bliss", 100, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) }, 
                 { 88, new WeatherRate("Dimensional Disruption", 100, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) }, 
                 { 89, new WeatherRate("Thunder", 100, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) }, 
-                { 90, new WeatherRate("", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) }
+                { 90, new WeatherRate("Fair Skies", 100, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) },
+                { 91, new WeatherRate("Fair Skies", 30, "Gales", 30, "Showers", 30, "Snow", 10, "", 0, "", 0, "", 0, "", 0) },
+                { 92, new WeatherRate("Dimensional Disruption", 100, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) },
+                { 93, new WeatherRate("White Cyclone", 100, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) },
+                { 94, new WeatherRate("Fair Skies", 10, "Fog", 18, "Heat Wave", 18, "Snow", 18, "Thunder", 18, "Blizzard", 18, "", 0, "", 0) },
+                { 95, new WeatherRate("Fair Skies", 100, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0) }
             };
 
             return weatherRate;
